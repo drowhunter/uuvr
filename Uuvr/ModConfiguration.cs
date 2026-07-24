@@ -76,6 +76,15 @@ public class ModConfiguration
     public readonly ConfigEntry<string> ComponentsToDisable;
     public readonly ConfigEntry<float> ComponentSearchInterval;
 
+    // Theatre Mode
+    public readonly ConfigEntry<bool> TheatreModeEnabled;
+    public readonly ConfigEntry<string> TheatreImmersiveCameras;
+    public readonly ConfigEntry<float> TheatreScreenDistance;
+    public readonly ConfigEntry<float> TheatreScreenWidth;
+    public readonly ConfigEntry<float> TheatreScreenHeight;
+    public readonly ConfigEntry<int> TheatreRenderTextureWidth;
+    public readonly ConfigEntry<int> TheatreRenderTextureHeight;
+
 #if MODERN
     public readonly ConfigEntry<VrApi> PreferredVrApi;
 #endif
@@ -230,5 +239,52 @@ public class ModConfiguration
             1f,
             new ConfigDescription("Value in seconds, the interval between searches for components to disable.",
                 new AcceptableValueRange<float>(0.5f, 30f)));
+
+        TheatreModeEnabled = config.Bind(
+            "Theatre Mode",
+            "Enabled",
+            false,
+            "Enable dynamic IVR/Theatre Mode switching. When enabled, cameras not in the Immersive list render onto a virtual flat screen.");
+
+        TheatreImmersiveCameras = config.Bind(
+            "Theatre Mode",
+            "Immersive Camera Patterns",
+            "",
+            "Camera names or regex patterns (separated by /) that should render in Immersive VR. All other cameras use Theatre Mode. Example: 'Main Camera/^HUD.*$'");
+
+        TheatreScreenDistance = config.Bind(
+            "Theatre Mode",
+            "Screen Distance",
+            3f,
+            new ConfigDescription("Distance in metres the theatre screen is placed in front of the VR camera.",
+                new AcceptableValueRange<float>(0.5f, 20f)));
+
+        TheatreScreenWidth = config.Bind(
+            "Theatre Mode",
+            "Screen Width",
+            2f,
+            new ConfigDescription("Width of the theatre screen quad in metres.",
+                new AcceptableValueRange<float>(0.1f, 20f)));
+
+        TheatreScreenHeight = config.Bind(
+            "Theatre Mode",
+            "Screen Height",
+            1.2f,
+            new ConfigDescription("Height of the theatre screen quad in metres.",
+                new AcceptableValueRange<float>(0.1f, 20f)));
+
+        TheatreRenderTextureWidth = config.Bind(
+            "Theatre Mode",
+            "Render Texture Width",
+            1920,
+            new ConfigDescription("Horizontal resolution of the theatre capture RenderTexture.",
+                new AcceptableValueRange<int>(64, 7680)));
+
+        TheatreRenderTextureHeight = config.Bind(
+            "Theatre Mode",
+            "Render Texture Height",
+            1080,
+            new ConfigDescription("Vertical resolution of the theatre capture RenderTexture.",
+                new AcceptableValueRange<int>(64, 4320)));
     }
 }

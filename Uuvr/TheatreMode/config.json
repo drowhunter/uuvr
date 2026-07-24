@@ -1,0 +1,13 @@
+{
+  "theatreMode": {
+    "enabled": false,
+    "immersiveCameraPatterns": [],
+    "screen": {
+      "distance": 3.0,
+      "width": 2.0,
+      "height": 1.2,
+      "renderTextureWidth": 1920,
+      "renderTextureHeight": 1080
+    }
+  }
+}
