@@ -32,9 +32,10 @@ public class TheatreCapture : MonoBehaviour
 
     // ── Unity callbacks ─────────────────────────────────────────────────────
 
-    // OnRenderImage is called by Unity after all effects have been applied to this camera.
-    // We must always blit src → dest to preserve the camera's output, and additionally
-    // blit src → _theatreRt so the Theatre Screen quad shows the same frame.
+    // OnRenderImage is called by Unity after all rendering and image effects for this camera.
+    // The wrapper exists so the blit logic is centralised in PerformBlit and can also be
+    // called directly from external code (e.g. an IL2CPP Harmony patch) without needing
+    // access to Unity's internal callback mechanism.
 #if !CPP
     private void OnRenderImage(RenderTexture src, RenderTexture dest)
     {

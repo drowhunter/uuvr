@@ -39,7 +39,8 @@ public class VrCameraManager: MonoBehaviour
             if (VrCamera.IgnoredCameras.Contains(camera)) continue;
 
             // Route the camera to IVR or Theatre Mode when Theatre Mode is enabled.
-            if (ModConfiguration.Instance.TheatreModeEnabled.Value &&
+            if (ModConfiguration.Instance != null &&
+                ModConfiguration.Instance.TheatreModeEnabled.Value &&
                 TheatreModeIntegration.Instance != null)
             {
                 TheatreModeIntegration.Instance.OnCameraRender(camera);

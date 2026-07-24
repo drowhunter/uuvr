@@ -51,7 +51,7 @@ public class TheatreScreenManager : MonoBehaviour
         _screenQuad.name = "TheatreScreen";
 
         // Remove physics collider — it is not needed.
-        var collider = _screenQuad.GetComponent("Collider");
+        var collider = _screenQuad.GetComponent<Collider>();
         if (collider != null) Object.Destroy(collider);
 
         _screenQuad.transform.SetParent(transform, false);

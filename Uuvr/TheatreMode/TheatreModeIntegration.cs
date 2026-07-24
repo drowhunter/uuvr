@@ -46,12 +46,15 @@ public class TheatreModeIntegration : MonoBehaviour
 
     // ── Configuration ────────────────────────────────────────────────────────
 
+    // Separator used in the BepInEx config string to delimit multiple patterns.
+    private const char PatternSeparator = '/';
+
     private void LoadConfiguredPatterns()
     {
         var patterns = ModConfiguration.Instance.TheatreImmersiveCameras.Value;
         if (string.IsNullOrWhiteSpace(patterns)) return;
 
-        foreach (var p in patterns.Split('/'))
+        foreach (var p in patterns.Split(PatternSeparator))
         {
             var trimmed = p.Trim();
             if (!string.IsNullOrEmpty(trimmed))

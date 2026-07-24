@@ -250,7 +250,7 @@ public class ModConfiguration
             "Theatre Mode",
             "Immersive Camera Patterns",
             "",
-            "Camera names or regex patterns (separated by /) that should render in Immersive VR. All other cameras use Theatre Mode. Example: 'Main Camera/^HUD.*'");
+            "Camera names or regex patterns (separated by /) that should render in Immersive VR. All other cameras use Theatre Mode. Example: 'Main Camera/^HUD.*$'");
 
         TheatreScreenDistance = config.Bind(
             "Theatre Mode",
