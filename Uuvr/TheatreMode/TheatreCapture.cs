@@ -38,18 +38,13 @@ public class TheatreCapture : MonoBehaviour
 #if !CPP
     private void OnRenderImage(RenderTexture src, RenderTexture dest)
     {
-        // Preserve normal rendering path.
-        Graphics.Blit(src, dest);
-
-        // Copy to the theatre screen if a target texture has been assigned.
-        if (_theatreRt != null)
-            Graphics.Blit(src, _theatreRt);
+        PerformBlit(src, dest);
     }
 #endif
-    // Note: IL2CPP builds hook OnRenderImage differently.
-    // When building with the CPP backend, the hook is injected via
-    // TheatreCaptureIl2Cpp (see TheatreModeIntegration) and delegates to
-    // PerformBlit below so the logic stays in one place.
+    // Note: IL2CPP builds do not support the OnRenderImage callback via the standard
+    // MonoBehaviour mechanism. In IL2CPP projects a Harmony/HookGen patch must call
+    // PerformBlit(src, dest) directly on the TheatreCapture component after obtaining it
+    // via camera.GetComponent<TheatreCapture>().
 
     /// <summary>Performs the double blit (called from IL2CPP hook if needed).</summary>
     public void PerformBlit(RenderTexture src, RenderTexture dest)

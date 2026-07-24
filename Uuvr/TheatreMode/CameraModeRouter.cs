@@ -12,14 +12,7 @@ namespace Uuvr.TheatreMode;
 /// </summary>
 public class CameraModeRouter
 {
-    public static CameraModeRouter Instance { get; private set; } = new CameraModeRouter();
-
     private readonly List<string> _immersiveCameraPatterns = new List<string>();
-
-    public CameraModeRouter()
-    {
-        Instance = this;
-    }
 
     /// <summary>Returns true if the camera should render in Immersive VR mode.</summary>
     public bool IsImmersive(Camera cam)
