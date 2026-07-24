@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using UnityEngine;
+using Uuvr.TheatreMode;
 using Uuvr.VrCamera;
 using Uuvr.VrTogglers;
 using Uuvr.VrUi;
@@ -32,6 +33,7 @@ public class UuvrCore: MonoBehaviour
     {
         DontDestroyOnLoad(gameObject);
         gameObject.AddComponent<VrCameraManager>();
+        gameObject.AddComponent<TheatreModeIntegration>();
         
         // TODO: Emulate input.   
         // UuvrBehaviour.Create<UuvrInput>(transform);
