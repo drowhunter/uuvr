@@ -3,7 +3,7 @@ using System;
 #endif
 using System.Collections.Generic;
 using UnityEngine;
-using Uuvr.VrCamera;
+using VrCameraClass = Uuvr.VrCamera.VrCamera;
 
 namespace Uuvr.TheatreMode;
 
@@ -127,9 +127,9 @@ public class TheatreModeIntegration : MonoBehaviour
     private void AttachToHighestDepthVrCamera()
     {
         if (_screen == null) return;
-        if (VrCamera.VrCamera.HighestDepthVrCamera?.ParentCamera == null) return;
+        if (VrCameraClass.HighestDepthVrCamera?.ParentCamera == null) return;
 
-        var vrCamTransform = VrCamera.VrCamera.HighestDepthVrCamera.ParentCamera.transform;
+        var vrCamTransform = VrCameraClass.HighestDepthVrCamera.ParentCamera.transform;
         if (_screen.transform.parent != vrCamTransform)
             _screen.AttachToCamera(vrCamTransform);
     }

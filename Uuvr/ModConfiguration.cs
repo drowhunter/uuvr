@@ -82,6 +82,8 @@ public class ModConfiguration
     public readonly ConfigEntry<float> TheatreScreenDistance;
     public readonly ConfigEntry<float> TheatreScreenWidth;
     public readonly ConfigEntry<float> TheatreScreenHeight;
+    public readonly ConfigEntry<int> TheatreRenderTextureWidth;
+    public readonly ConfigEntry<int> TheatreRenderTextureHeight;
 
 #if MODERN
     public readonly ConfigEntry<VrApi> PreferredVrApi;
@@ -270,5 +272,19 @@ public class ModConfiguration
             1.2f,
             new ConfigDescription("Height of the theatre screen quad in metres.",
                 new AcceptableValueRange<float>(0.1f, 20f)));
+
+        TheatreRenderTextureWidth = config.Bind(
+            "Theatre Mode",
+            "Render Texture Width",
+            1920,
+            new ConfigDescription("Horizontal resolution of the theatre capture RenderTexture.",
+                new AcceptableValueRange<int>(64, 7680)));
+
+        TheatreRenderTextureHeight = config.Bind(
+            "Theatre Mode",
+            "Render Texture Height",
+            1080,
+            new ConfigDescription("Vertical resolution of the theatre capture RenderTexture.",
+                new AcceptableValueRange<int>(64, 4320)));
     }
 }

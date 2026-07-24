@@ -14,6 +14,9 @@ public class CameraModeRouter
 {
     private readonly List<string> _immersiveCameraPatterns = new List<string>();
 
+    // Compiled Regex cache — patterns are compiled once and reused every frame.
+    private readonly Dictionary<string, Regex?> _regexCache = new Dictionary<string, Regex?>();
+
     /// <summary>Returns true if the camera should render in Immersive VR mode.</summary>
     public bool IsImmersive(Camera cam)
     {
@@ -25,17 +28,11 @@ public class CameraModeRouter
         {
             if (string.IsNullOrEmpty(pattern)) continue;
 
-            // Try exact match first, then regex.
+            // Try exact match first, then compiled regex.
             if (name == pattern) return true;
 
-            try
-            {
-                if (Regex.IsMatch(name, pattern)) return true;
-            }
-            catch (ArgumentException)
-            {
-                // Pattern is not valid regex — already handled by exact match above.
-            }
+            var regex = GetOrCompileRegex(pattern);
+            if (regex != null && regex.IsMatch(name)) return true;
         }
 
         return false;
@@ -52,12 +49,14 @@ public class CameraModeRouter
     public void RemoveImmersiveCamera(string pattern)
     {
         _immersiveCameraPatterns.Remove(pattern);
+        _regexCache.Remove(pattern);
     }
 
     /// <summary>Replaces the entire immersive camera list.</summary>
     public void SetImmersiveCameras(IEnumerable<string> patterns)
     {
         _immersiveCameraPatterns.Clear();
+        _regexCache.Clear();
         foreach (var p in patterns)
             AddImmersiveCamera(p);
     }
@@ -65,4 +64,25 @@ public class CameraModeRouter
     /// <summary>Returns a read-only snapshot of the current immersive patterns.</summary>
     public IReadOnlyList<string> GetImmersiveCameraPatterns() =>
         _immersiveCameraPatterns.AsReadOnly();
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+
+    private Regex? GetOrCompileRegex(string pattern)
+    {
+        if (_regexCache.TryGetValue(pattern, out var cached))
+            return cached;
+
+        Regex? compiled = null;
+        try
+        {
+            compiled = new Regex(pattern, RegexOptions.Compiled | RegexOptions.CultureInvariant);
+        }
+        catch (ArgumentException)
+        {
+            // Not a valid regex — store null so we skip it on subsequent calls.
+        }
+
+        _regexCache[pattern] = compiled;
+        return compiled;
+    }
 }

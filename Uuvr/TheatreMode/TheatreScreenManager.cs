@@ -15,10 +15,6 @@ public class TheatreScreenManager : MonoBehaviour
     public TheatreScreenManager(IntPtr pointer) : base(pointer) { }
 #endif
 
-    private const float QuadDistance = 3f;
-    private const float QuadWidth    = 2f;
-    private const float QuadHeight   = 1.2f;
-
     private GameObject? _screenQuad;
     private Renderer?   _screenRenderer;
     private RenderTexture? _renderTexture;
@@ -42,7 +38,10 @@ public class TheatreScreenManager : MonoBehaviour
 
     private void CreateScreen()
     {
-        _renderTexture = new RenderTexture(1920, 1080, 0, RenderTextureFormat.ARGB32)
+        var rtWidth  = ModConfiguration.Instance?.TheatreRenderTextureWidth.Value  ?? 1920;
+        var rtHeight = ModConfiguration.Instance?.TheatreRenderTextureHeight.Value ?? 1080;
+
+        _renderTexture = new RenderTexture(rtWidth, rtHeight, 0, RenderTextureFormat.ARGB32)
         {
             name = "TheatreModeRT"
         };
@@ -72,15 +71,9 @@ public class TheatreScreenManager : MonoBehaviour
     {
         if (_screenQuad == null) return;
 
-        var distance = ModConfiguration.Instance != null
-            ? ModConfiguration.Instance.TheatreScreenDistance.Value
-            : QuadDistance;
-        var width = ModConfiguration.Instance != null
-            ? ModConfiguration.Instance.TheatreScreenWidth.Value
-            : QuadWidth;
-        var height = ModConfiguration.Instance != null
-            ? ModConfiguration.Instance.TheatreScreenHeight.Value
-            : QuadHeight;
+        var distance = ModConfiguration.Instance?.TheatreScreenDistance.Value ?? 3f;
+        var width    = ModConfiguration.Instance?.TheatreScreenWidth.Value    ?? 2f;
+        var height   = ModConfiguration.Instance?.TheatreScreenHeight.Value   ?? 1.2f;
 
         _screenQuad.transform.localPosition = new Vector3(0f, 0f, distance);
         _screenQuad.transform.localRotation = Quaternion.identity;
